@@ -1,47 +1,77 @@
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const cors = require('cors');
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
-const { sequelize, User, KruWaterBill, Payment, Kon,Confirmation,Donation ,Projektet,Participation,Prishtina,FamilyDoctorRequest,ElectronicPassport,
-  Policia2, Policia3, KescoBill,Donacioni,Verifikimi,DokElektronike,FaturaPer,ApLehonat,ApFemije, AutoRegjistrim,AutoB, AutoP,CertiFam,Deklarimi,
-  AdPostare,Vula
-} = require('./db');
+const express = require("express");
+const bcrypt = require("bcryptjs");
+const cors = require("cors");
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+const {
+  sequelize,
+  User,
+  KruWaterBill,
+  Payment,
+  Kon,
+  Confirmation,
+  Donation,
+  Projektet,
+  Participation,
+  Prishtina,
+  FamilyDoctorRequest,
+  ElectronicPassport,
+  Policia2,
+  Policia3,
+  KescoBill,
+  Donacioni,
+  Verifikimi,
+  DokElektronike,
+  FaturaPer,
+  ApLehonat,
+  ApFemije,
+  AutoRegjistrim,
+  AutoB,
+  AutoP,
+  CertiFam,
+  Deklarimi,
+  AdPostare,
+  Vula,
+} = require("./db");
 const app = express();
-const fs = require('fs'); 
-const path = require('path');
-const PDFDocument = require('pdfkit');
-const pdf = require('html-pdf');
-
+const fs = require("fs");
+const path = require("path");
+const PDFDocument = require("pdfkit");
+const pdf = require("html-pdf");
 
 app.use(cors());
 app.use(express.json());
+
 // Swagger setup
 const swaggerOptions = {
   swaggerDefinition: {
-    openapi: '3.0.0',
+    openapi: "3.0.0",
     info: {
-      title: 'API Documentation',
-      version: '1.0.0',
-      description: 'API Information',
+      title: "API Documentation",
+      version: "1.0.0",
+      description: "API Information",
       contact: {
-        name: 'Developer',
-        email: 'developer@example.com'
+        name: "Developer",
+        email: "developer@example.com",
       },
-      servers: [{ url: 'http://127.0.0.1:5001' }]
-    }
+      servers: [{ url: "http://127.0.0.1:5001" }],
+    },
   },
-  apis: ['./server.js'] // Files containing Swagger annotations
+  apis: ["./server.js"], // Files containing Swagger annotations
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 // Sync the database and create the tables
-sequelize.sync().then(() => {
-  console.log('Database & tables created!');
-}).catch(error => {
-  console.error('Unable to create tables:', error);
-});
+sequelize
+  .sync()
+  .then(() => {
+    console.log("Database & tables created!");
+  })
+  .catch((error) => {
+    console.error("Unable to create tables:", error);
+  });
 
 // Signup route
 /**
@@ -74,18 +104,20 @@ sequelize.sync().then(() => {
  *       500:
  *         description: Internal server error
  */
-app.post('/signup', async (req, res) => {
+app.post("/signup", async (req, res) => {
   const { usernameR, passwordR } = req.body;
 
   if (!usernameR || !passwordR) {
-    return res.status(400).json({ message: 'Username and password are required' });
+    return res
+      .status(400)
+      .json({ message: "Username and password are required" });
   }
 
   try {
     // Check if username is already taken
     const existingUser = await User.findOne({ where: { usernameR } });
     if (existingUser) {
-      return res.status(409).json({ message: 'Username taken' });
+      return res.status(409).json({ message: "Username taken" });
     }
 
     // Hash the password
@@ -93,10 +125,12 @@ app.post('/signup', async (req, res) => {
 
     // Create new user
     const newUser = await User.create({ usernameR, passwordR: hashedPassword });
-    res.status(201).json({ message: 'User created successfully', user: newUser });
+    res
+      .status(201)
+      .json({ message: "User created successfully", user: newUser });
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -129,7 +163,7 @@ app.post('/signup', async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-app.post('/login', async (req, res) => {
+app.post("/login", async (req, res) => {
   const { usernameR, passwordR } = req.body;
 
   try {
@@ -137,26 +171,22 @@ app.post('/login', async (req, res) => {
     const user = await User.findOne({ where: { usernameR } });
 
     if (!user) {
-      return res.status(401).json({ message: 'Invalid username or password' });
+      return res.status(401).json({ message: "Invalid username or password" });
     }
 
     // Compare the provided password with the stored hashed password
     const isMatch = await bcrypt.compare(passwordR, user.passwordR);
 
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid username or password' });
+      return res.status(401).json({ message: "Invalid username or password" });
     }
 
-    res.status(200).json({ message: 'Login successful', user });
+    res.status(200).json({ message: "Login successful", user });
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
-
-
-
-
 
 /**
  * @swagger
@@ -263,11 +293,26 @@ app.post('/login', async (req, res) => {
  *       500:
  *         description: Internal Server Error
  */
-app.put('/ap-femije/:id', async (req, res) => {
+app.put("/ap-femije/:id", async (req, res) => {
   const { id } = req.params;
   const {
-    firstName, lastName, email, nrPersonal, contact, adresa, nrXhiro, gender,
-    aprovoj, che, english, maths, physics, resume, url, selectedOption, about
+    firstName,
+    lastName,
+    email,
+    nrPersonal,
+    contact,
+    adresa,
+    nrXhiro,
+    gender,
+    aprovoj,
+    che,
+    english,
+    maths,
+    physics,
+    resume,
+    url,
+    selectedOption,
+    about,
   } = req.body;
 
   try {
@@ -294,29 +339,29 @@ app.put('/ap-femije/:id', async (req, res) => {
       await femije.save();
       res.status(200).json(femije);
     } else {
-      res.status(404).send('ApFemije not found');
+      res.status(404).send("ApFemije not found");
     }
   } catch (error) {
-    console.error('Failed to update ApFemije entry:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Failed to update ApFemije entry:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
 // DELETE endpoint to delete a ApFemije entry by ID
-app.delete('/ap-femije/:id', async (req, res) => {
+app.delete("/ap-femije/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
     const femije = await ApFemije.findByPk(id);
     if (femije) {
       await femije.destroy();
-      res.status(200).send('ApFemije deleted');
+      res.status(200).send("ApFemije deleted");
     } else {
-      res.status(404).send('ApFemije not found');
+      res.status(404).send("ApFemije not found");
     }
   } catch (error) {
-    console.error('Failed to delete ApFemije entry:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Failed to delete ApFemije entry:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
@@ -425,37 +470,65 @@ app.delete('/ap-femije/:id', async (req, res) => {
  *       500:
  *         description: Internal Server Error
  */
-app.post('/ap-lehonat', async (req, res) => {
+app.post("/ap-lehonat", async (req, res) => {
   const {
-    firstName, lastName, email, nrPersonal, contact, adresa, nrXhiro, gender,
-    isEmployed, aprovoj, english, maths, physics, resume, nationality, about
+    firstName,
+    lastName,
+    email,
+    nrPersonal,
+    contact,
+    adresa,
+    nrXhiro,
+    gender,
+    isEmployed,
+    aprovoj,
+    english,
+    maths,
+    physics,
+    resume,
+    nationality,
+    about,
   } = req.body;
 
   try {
     const newApLehonat = await ApLehonat.create({
-      firstName, lastName, email, nrPersonal, contact, adresa, nrXhiro, gender,
-      isEmployed, aprovoj, english, maths, physics, resume, nationality, about
+      firstName,
+      lastName,
+      email,
+      nrPersonal,
+      contact,
+      adresa,
+      nrXhiro,
+      gender,
+      isEmployed,
+      aprovoj,
+      english,
+      maths,
+      physics,
+      resume,
+      nationality,
+      about,
     });
     res.status(201).json(newApLehonat);
   } catch (error) {
-    console.error('Failed to create new ApLehonat entry:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Failed to create new ApLehonat entry:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
 // GET endpoint to fetch all ApLehonat entries
-app.get('/ap-lehonat', async (req, res) => {
+app.get("/ap-lehonat", async (req, res) => {
   try {
     const lehonatList = await ApLehonat.findAll();
     res.status(200).json(lehonatList);
   } catch (error) {
-    console.error('Failed to retrieve ApLehonat entries:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Failed to retrieve ApLehonat entries:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
 // GET endpoint to fetch a single ApLehonat entry by ID
-app.get('/ap-lehonat/:id', async (req, res) => {
+app.get("/ap-lehonat/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -463,20 +536,34 @@ app.get('/ap-lehonat/:id', async (req, res) => {
     if (lehonat) {
       res.status(200).json(lehonat);
     } else {
-      res.status(404).send('ApLehonat not found');
+      res.status(404).send("ApLehonat not found");
     }
   } catch (error) {
-    console.error('Failed to retrieve ApLehonat entry:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Failed to retrieve ApLehonat entry:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
 // PUT endpoint to update a ApLehonat entry by ID
-app.put('/ap-lehonat/:id', async (req, res) => {
+app.put("/ap-lehonat/:id", async (req, res) => {
   const { id } = req.params;
   const {
-    firstName, lastName, email, nrPersonal, contact, adresa, nrXhiro, gender,
-    isEmployed, aprovoj, english, maths, physics, resume, nationality, about
+    firstName,
+    lastName,
+    email,
+    nrPersonal,
+    contact,
+    adresa,
+    nrXhiro,
+    gender,
+    isEmployed,
+    aprovoj,
+    english,
+    maths,
+    physics,
+    resume,
+    nationality,
+    about,
   } = req.body;
 
   try {
@@ -502,29 +589,29 @@ app.put('/ap-lehonat/:id', async (req, res) => {
       await lehonat.save();
       res.status(200).json(lehonat);
     } else {
-      res.status(404).send('ApLehonat not found');
+      res.status(404).send("ApLehonat not found");
     }
   } catch (error) {
-    console.error('Failed to update ApLehonat entry:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Failed to update ApLehonat entry:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
 // DELETE endpoint to delete a ApLehonat entry by ID
-app.delete('/ap-lehonat/:id', async (req, res) => {
+app.delete("/ap-lehonat/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
     const lehonat = await ApLehonat.findByPk(id);
     if (lehonat) {
       await lehonat.destroy();
-      res.status(200).send('ApLehonat deleted');
+      res.status(200).send("ApLehonat deleted");
     } else {
-      res.status(404).send('ApLehonat not found');
+      res.status(404).send("ApLehonat not found");
     }
   } catch (error) {
-    console.error('Failed to delete ApLehonat entry:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Failed to delete ApLehonat entry:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 /**
@@ -549,12 +636,12 @@ app.delete('/ap-lehonat/:id', async (req, res) => {
  *       500:
  *         description: Some server error
  */
-app.post('/kru-water-bills', async (req, res) => {
+app.post("/kru-water-bills", async (req, res) => {
   try {
     const newBill = await KruWaterBill.create(req.body);
     res.status(201).json(newBill);
   } catch (error) {
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
 /**
@@ -575,12 +662,12 @@ app.post('/kru-water-bills', async (req, res) => {
  *       500:
  *         description: Some server error
  */
-app.get('/kru-water-bills', async (req, res) => {
+app.get("/kru-water-bills", async (req, res) => {
   try {
     const bills = await KruWaterBill.findAll();
     res.status(200).json(bills);
   } catch (error) {
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
 /**
@@ -608,20 +695,22 @@ app.get('/kru-water-bills', async (req, res) => {
  *       500:
  *         description: Some server error
  */
-app.get('/api/water-bills/:consumerNumber', async (req, res) => {
+app.get("/api/water-bills/:consumerNumber", async (req, res) => {
   try {
     const { consumerNumber } = req.params;
     console.log(`Received request for consumer number: ${consumerNumber}`);
-    const bill = await KruWaterBill.findOne({ where: { consumer_number: consumerNumber } });
+    const bill = await KruWaterBill.findOne({
+      where: { consumer_number: consumerNumber },
+    });
     console.log(`Query result: ${JSON.stringify(bill)}`);
     if (bill) {
       res.json(bill);
     } else {
-      res.status(404).send('Bill not found');
+      res.status(404).send("Bill not found");
     }
   } catch (error) {
-    console.error('Error fetching the bill:', error);
-    res.status(500).send('Server error');
+    console.error("Error fetching the bill:", error);
+    res.status(500).send("Server error");
   }
 });
 /**
@@ -649,12 +738,12 @@ app.get('/api/water-bills/:consumerNumber', async (req, res) => {
  *       500:
  *         description: Some server error
  */
-app.get('/kru-water-bills/:id', async (req, res) => {
+app.get("/kru-water-bills/:id", async (req, res) => {
   try {
     const bill = await KruWaterBill.findByPk(req.params.id);
-    bill ? res.status(200).json(bill) : res.status(404).send('Bill not found');
+    bill ? res.status(200).json(bill) : res.status(404).send("Bill not found");
   } catch (error) {
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
 /**
@@ -688,17 +777,17 @@ app.get('/kru-water-bills/:id', async (req, res) => {
  *       500:
  *         description: Some server error
  */
-app.put('/kru-water-bills/:id', async (req, res) => {
+app.put("/kru-water-bills/:id", async (req, res) => {
   try {
     const bill = await KruWaterBill.findByPk(req.params.id);
     if (bill) {
       await bill.update(req.body);
       res.status(200).json(bill);
     } else {
-      res.status(404).send('Bill not found');
+      res.status(404).send("Bill not found");
     }
   } catch (error) {
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
 /**
@@ -722,17 +811,17 @@ app.put('/kru-water-bills/:id', async (req, res) => {
  *       500:
  *         description: Some server error
  */
-app.delete('/kru-water-bills/:id', async (req, res) => {
+app.delete("/kru-water-bills/:id", async (req, res) => {
   try {
     const bill = await KruWaterBill.findByPk(req.params.id);
     if (bill) {
       await bill.destroy();
-      res.status(200).send('Bill deleted');
+      res.status(200).send("Bill deleted");
     } else {
-      res.status(404).send('Bill not found');
+      res.status(404).send("Bill not found");
     }
   } catch (error) {
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
 /**
@@ -779,12 +868,12 @@ app.delete('/kru-water-bills/:id', async (req, res) => {
  *       500:
  *         description: Some server error
  */
-app.post('/kesco-bills', async (req, res) => {
+app.post("/kesco-bills", async (req, res) => {
   try {
     const newBill = await KescoBill.create(req.body);
     res.status(201).json(newBill);
   } catch (error) {
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
 /**
@@ -812,21 +901,21 @@ app.post('/kesco-bills', async (req, res) => {
  *       500:
  *         description: Some server error
  */
-app.get('/kesco-bills', async (req, res) => {
+app.get("/kesco-bills", async (req, res) => {
   try {
     const bills = await KescoBill.findAll();
     res.status(200).json(bills);
   } catch (error) {
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
 
-app.get('/kesco-bills/:id', async (req, res) => {
+app.get("/kesco-bills/:id", async (req, res) => {
   try {
     const bill = await KescoBill.findByPk(req.params.id);
-    bill ? res.status(200).json(bill) : res.status(404).send('Bill not found');
+    bill ? res.status(200).json(bill) : res.status(404).send("Bill not found");
   } catch (error) {
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
 /**
@@ -860,17 +949,17 @@ app.get('/kesco-bills/:id', async (req, res) => {
  *       500:
  *         description: Some server error
  */
-app.put('/kesco-bills/:id', async (req, res) => {
+app.put("/kesco-bills/:id", async (req, res) => {
   try {
     const bill = await KescoBill.findByPk(req.params.id);
     if (bill) {
       await bill.update(req.body);
       res.status(200).json(bill);
     } else {
-      res.status(404).send('Bill not found');
+      res.status(404).send("Bill not found");
     }
   } catch (error) {
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
 /**
@@ -894,17 +983,17 @@ app.put('/kesco-bills/:id', async (req, res) => {
  *       500:
  *         description: Some server error
  */
-app.delete('/kesco-bills/:id', async (req, res) => {
+app.delete("/kesco-bills/:id", async (req, res) => {
   try {
     const bill = await KescoBill.findByPk(req.params.id);
     if (bill) {
       await bill.destroy();
-      res.status(200).send('Bill deleted');
+      res.status(200).send("Bill deleted");
     } else {
-      res.status(404).send('Bill not found');
+      res.status(404).send("Bill not found");
     }
   } catch (error) {
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
 // app.listen(PORT, () => {
@@ -915,25 +1004,30 @@ app.use(cors()); // Enable CORS
 app.use(express.json());
 
 // Sync the database and create the tables
-sequelize.sync().then(() => {
-  console.log('Database & tables created!');
-}).catch(error => {
-  console.error('Unable to create tables:', error);
-});
+sequelize
+  .sync()
+  .then(() => {
+    console.log("Database & tables created!");
+  })
+  .catch((error) => {
+    console.error("Unable to create tables:", error);
+  });
 
 // Signup route
-app.post('/signup', async (req, res) => {
+app.post("/signup", async (req, res) => {
   const { usernameR, passwordR } = req.body;
 
   if (!usernameR || !passwordR) {
-    return res.status(400).json({ message: 'Username and password are required' });
+    return res
+      .status(400)
+      .json({ message: "Username and password are required" });
   }
 
   try {
     // Check if username is already taken
     const existingUser = await User.findOne({ where: { usernameR } });
     if (existingUser) {
-      return res.status(409).json({ message: 'Username taken' });
+      return res.status(409).json({ message: "Username taken" });
     }
 
     // Hash the password
@@ -941,15 +1035,17 @@ app.post('/signup', async (req, res) => {
 
     // Create new user
     const newUser = await User.create({ usernameR, passwordR: hashedPassword });
-    res.status(201).json({ message: 'User created successfully', user: newUser });
+    res
+      .status(201)
+      .json({ message: "User created successfully", user: newUser });
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
 // Login route
-app.post('/login', async (req, res) => {
+app.post("/login", async (req, res) => {
   const { usernameR, passwordR } = req.body;
 
   try {
@@ -957,20 +1053,20 @@ app.post('/login', async (req, res) => {
     const user = await User.findOne({ where: { usernameR } });
 
     if (!user) {
-      return res.status(401).json({ message: 'Invalid username or password' });
+      return res.status(401).json({ message: "Invalid username or password" });
     }
 
     // Compare the provided password with the stored hashed password
     const isMatch = await bcrypt.compare(passwordR, user.passwordR);
 
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid username or password' });
+      return res.status(401).json({ message: "Invalid username or password" });
     }
 
-    res.status(200).json({ message: 'Login successful', user });
+    res.status(200).json({ message: "Login successful", user });
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 /**
@@ -1019,35 +1115,38 @@ app.post('/login', async (req, res) => {
  *                   type: string
  */
 
-app.post('/api/participations', async (req, res) => {
+app.post("/api/participations", async (req, res) => {
   try {
-      const { donationAmount, option } = req.body;
-      const participation = await Participation.create({ donationAmount, option });
-      res.status(201).json(participation);
+    const { donationAmount, option } = req.body;
+    const participation = await Participation.create({
+      donationAmount,
+      option,
+    });
+    res.status(201).json(participation);
   } catch (error) {
-      console.error('Error creating participation:', error);
-      res.status(500).json({ error: 'Internal server error' });
+    console.error("Error creating participation:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-app.post('/verifikimi', async (req, res) => {
+app.post("/verifikimi", async (req, res) => {
   try {
-      const { ref, selectedOption } = req.body;
-      const newVerifikimi = await Verifikimi.create({ ref, selectedOption });
-      res.status(201).json(newVerifikimi);
+    const { ref, selectedOption } = req.body;
+    const newVerifikimi = await Verifikimi.create({ ref, selectedOption });
+    res.status(201).json(newVerifikimi);
   } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
+    console.error(err.message);
+    res.status(500).send("Server Error");
   }
 });
 
-app.post('/donacioni', async (req, res) => {
+app.post("/donacioni", async (req, res) => {
   try {
-      const { amount, reference } = req.body;
-      const donation = await Donation.create({ amount, reference });
-      res.status(201).send(donation);
+    const { amount, reference } = req.body;
+    const donation = await Donation.create({ amount, reference });
+    res.status(201).send(donation);
   } catch (error) {
-      res.status(400).send(error);
+    res.status(400).send(error);
   }
 });
 
@@ -1179,23 +1278,23 @@ app.post('/donacioni', async (req, res) => {
  *       500:
  *         description: Error creating the request
  */
-app.post('/requests', async (req, res) => {
-  const { selectedOption1, selectedOption2, selectedOption3, aprovoj } = req.body;
+app.post("/requests", async (req, res) => {
+  const { selectedOption1, selectedOption2, selectedOption3, aprovoj } =
+    req.body;
 
   try {
     const newRequest = await Request.create({
       selectedOption1,
       selectedOption2,
       selectedOption3,
-      aprovoj
+      aprovoj,
     });
     res.status(201).json(newRequest);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Gabim gjatë krijimit të kërkesës.');
+    res.status(500).send("Gabim gjatë krijimit të kërkesës.");
   }
 });
-
 
 // // Endpoint për të krijuar një kërkesë të re për mjekun familjar
 // app.post('/family-doctor-requests', async (req, res) => {
@@ -1276,27 +1375,25 @@ app.post('/requests', async (req, res) => {
 let consentStatus = {};
 
 // Endpoint to save consent status
-app.post('/consent', (req, res) => {
+app.post("/consent", (req, res) => {
   const { userId, consent } = req.body;
-  if (typeof userId !== 'string' || typeof consent !== 'boolean') {
-    return res.status(400).send('Invalid request parameters.');
+  if (typeof userId !== "string" || typeof consent !== "boolean") {
+    return res.status(400).send("Invalid request parameters.");
   }
   consentStatus[userId] = consent;
-  res.status(200).send('Consent status saved successfully.');
+  res.status(200).send("Consent status saved successfully.");
 });
 
 // Endpoint to check consent status
-app.get('/consent/:userId', (req, res) => {
+app.get("/consent/:userId", (req, res) => {
   const { userId } = req.params;
   const consent = consentStatus[userId];
   if (consent === undefined) {
-    res.status(404).send('Consent status not found for the given user.');
+    res.status(404).send("Consent status not found for the given user.");
   } else {
     res.status(200).json({ consent });
   }
 });
-
-
 
 /**
  * @swagger
@@ -1360,17 +1457,23 @@ app.get('/consent/:userId', (req, res) => {
  *                   type: string
  *                   description: Error message detailing what went wrong
  */
-app.post('/api/payments', async (req, res) => {
+app.post("/api/payments", async (req, res) => {
   try {
     const { cardHolderName, cardNumber, expiryDate, cvv } = req.body;
-    const payment = await Payment.create({ cardHolderName, cardNumber, expiryDate, cvv });
+    const payment = await Payment.create({
+      cardHolderName,
+      cardNumber,
+      expiryDate,
+      cvv,
+    });
     res.status(201).json(payment);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'An error occurred while processing the payment' });
+    res
+      .status(500)
+      .json({ error: "An error occurred while processing the payment" });
   }
 });
-
 
 /**
  * @swagger
@@ -1458,28 +1561,28 @@ app.post('/api/payments', async (req, res) => {
  *               type: string
  */
 
-app.post('/api/kon', async (req, res) => {
+app.post("/api/kon", async (req, res) => {
   try {
     const { au, approve } = req.body;
     const newKon = await Kon.create({ au, approve });
     res.status(201).json(newKon);
   } catch (error) {
-    console.error('Error saving Kon data:', error);
-    res.status(500).send('Server error');
+    console.error("Error saving Kon data:", error);
+    res.status(500).send("Server error");
   }
 });
 
 // Endpoint to get Kon data for download
-app.get('/api/kon/:id', async (req, res) => {
+app.get("/api/kon/:id", async (req, res) => {
   try {
     const kon = await Kon.findByPk(req.params.id);
     if (!kon) {
-      return res.status(404).send('Data not found');
+      return res.status(404).send("Data not found");
     }
     res.status(200).json(kon);
   } catch (error) {
-    console.error('Error fetching Kon data:', error);
-    res.status(500).send('Server error');
+    console.error("Error fetching Kon data:", error);
+    res.status(500).send("Server error");
   }
 });
 
@@ -1521,15 +1624,17 @@ app.get('/api/kon/:id', async (req, res) => {
  *             schema:
  *               type: string
  */
-app.post('/api/confirmation', async (req, res) => {
+app.post("/api/confirmation", async (req, res) => {
   try {
     const { selectedOption } = req.body;
     // Assuming you have a Confirmation model, otherwise you can save this data in the desired table.
-    const newConfirmation = await Confirmation.create({ reason: selectedOption });
+    const newConfirmation = await Confirmation.create({
+      reason: selectedOption,
+    });
     res.status(201).json(newConfirmation);
   } catch (error) {
-    console.error('Error saving confirmation data:', error);
-    res.status(500).send('Server error');
+    console.error("Error saving confirmation data:", error);
+    res.status(500).send("Server error");
   }
 });
 
@@ -1585,14 +1690,14 @@ app.post('/api/confirmation', async (req, res) => {
  *                   type: string
  */
 
-app.post('/api/projektet', async (req, res) => {
+app.post("/api/projektet", async (req, res) => {
   try {
     const { amount, paymentMethod } = req.body;
     const newProjektet = await Projektet.create({ amount, paymentMethod });
     res.status(201).json(newProjektet);
   } catch (error) {
-    console.error('Error saving projektet data:', error);
-    res.status(500).json({ error: 'Internal Server Error', details: error });
+    console.error("Error saving projektet data:", error);
+    res.status(500).json({ error: "Internal Server Error", details: error });
   }
 });
 /**
@@ -1640,14 +1745,16 @@ app.post('/api/projektet', async (req, res) => {
  *                 details:
  *                   type: string
  */
-app.post('/api/participations', async (req, res) => {
+app.post("/api/participations", async (req, res) => {
   try {
-      const { donationAmount } = req.body;
-      const participation = await Participation.create({ donationAmount });
-      res.status(201).json(participation);
+    const { donationAmount } = req.body;
+    const participation = await Participation.create({ donationAmount });
+    res.status(201).json(participation);
   } catch (error) {
-      console.error('Error creating participation:', error);
-      res.status(500).json({ error: 'Internal server error', details: error.message });
+    console.error("Error creating participation:", error);
+    res
+      .status(500)
+      .json({ error: "Internal server error", details: error.message });
   }
 });
 /**
@@ -1694,14 +1801,16 @@ app.post('/api/participations', async (req, res) => {
  *                   type: string
  */
 
-app.post('/api/prishtina', async (req, res) => {
+app.post("/api/prishtina", async (req, res) => {
   try {
-      const { searchTerm } = req.body;
-      const prishtina = await Prishtina.create({ searchTerm });
-      res.status(201).json(prishtina);
+    const { searchTerm } = req.body;
+    const prishtina = await Prishtina.create({ searchTerm });
+    res.status(201).json(prishtina);
   } catch (error) {
-      console.error('Error creating Prishtina record:', error);
-      res.status(500).json({ error: 'Internal server error', details: error.message });
+    console.error("Error creating Prishtina record:", error);
+    res
+      .status(500)
+      .json({ error: "Internal server error", details: error.message });
   }
 });
 /**
@@ -1758,19 +1867,21 @@ app.post('/api/prishtina', async (req, res) => {
  *                   type: string
  */
 
-app.post('/api/prishtina/search', async (req, res) => {
+app.post("/api/prishtina/search", async (req, res) => {
   try {
-      const { searchTerm } = req.body;
-      const record = await Prishtina.findOne({ where: { searchTerm } });
-      if (record) {
-          res.status(200).json({ found: true, record });
-      } else {
-          const newRecord = await Prishtina.create({ searchTerm });
-          res.status(200).json({ found: false, newRecord });
-      }
+    const { searchTerm } = req.body;
+    const record = await Prishtina.findOne({ where: { searchTerm } });
+    if (record) {
+      res.status(200).json({ found: true, record });
+    } else {
+      const newRecord = await Prishtina.create({ searchTerm });
+      res.status(200).json({ found: false, newRecord });
+    }
   } catch (error) {
-      console.error('Error searching for Prishtina record:', error);
-      res.status(500).json({ error: 'Internal server error', details: error.message });
+    console.error("Error searching for Prishtina record:", error);
+    res
+      .status(500)
+      .json({ error: "Internal server error", details: error.message });
   }
 });
 /**
@@ -1835,14 +1946,26 @@ app.post('/api/prishtina/search', async (req, res) => {
  *             schema:
  *               type: string
  */
-app.post('/api/family-doctor-requests', async (req, res) => {
+app.post("/api/family-doctor-requests", async (req, res) => {
   try {
-    const { request_type, health_institution, request_reason, family_doctor, consent } = req.body;
-    const newRequest = await FamilyDoctorRequest.create({ request_type, health_institution, request_reason, family_doctor, consent });
+    const {
+      request_type,
+      health_institution,
+      request_reason,
+      family_doctor,
+      consent,
+    } = req.body;
+    const newRequest = await FamilyDoctorRequest.create({
+      request_type,
+      health_institution,
+      request_reason,
+      family_doctor,
+      consent,
+    });
     res.status(201).json(newRequest);
   } catch (error) {
-    console.error('Error creating Family Doctor Request:', error);
-    res.status(500).send('Server error');
+    console.error("Error creating Family Doctor Request:", error);
+    res.status(500).send("Server error");
   }
 });
 /**
@@ -1907,14 +2030,26 @@ app.post('/api/family-doctor-requests', async (req, res) => {
  *               type: string
  */
 
-app.post('/api/electronic-passports', async (req, res) => {
+app.post("/api/electronic-passports", async (req, res) => {
   try {
-    const { request_type, health_institution, request_reason, family_doctor, consent } = req.body;
-    const newRequest = await ElectronicPassport.create({ request_type, health_institution, request_reason, family_doctor, consent });
+    const {
+      request_type,
+      health_institution,
+      request_reason,
+      family_doctor,
+      consent,
+    } = req.body;
+    const newRequest = await ElectronicPassport.create({
+      request_type,
+      health_institution,
+      request_reason,
+      family_doctor,
+      consent,
+    });
     res.status(201).json(newRequest);
   } catch (error) {
-    console.error('Error creating Electronic Passport Request:', error);
-    res.status(500).send('Server error');
+    console.error("Error creating Electronic Passport Request:", error);
+    res.status(500).send("Server error");
   }
 });
 
@@ -1953,11 +2088,11 @@ app.post('/api/electronic-passports', async (req, res) => {
  *               type: string
  */
 
-app.get('/api/electronic-passports/:id/download', async (req, res) => {
+app.get("/api/electronic-passports/:id/download", async (req, res) => {
   try {
     const passport = await ElectronicPassport.findByPk(req.params.id);
     if (!passport) {
-      return res.status(404).send('Data not found');
+      return res.status(404).send("Data not found");
     }
 
     // Create a simple HTML template for the PDF
@@ -1972,16 +2107,14 @@ app.get('/api/electronic-passports/:id/download', async (req, res) => {
 
     pdf.create(html).toStream((err, stream) => {
       if (err) return res.status(500).send(err);
-      res.setHeader('Content-type', 'application/pdf');
+      res.setHeader("Content-type", "application/pdf");
       stream.pipe(res);
     });
-
   } catch (error) {
-    console.error('Error fetching Electronic Passport data:', error);
-    res.status(500).send('Server error');
+    console.error("Error fetching Electronic Passport data:", error);
+    res.status(500).send("Server error");
   }
 });
-
 
 /**
  * @swagger
@@ -2025,14 +2158,14 @@ app.get('/api/electronic-passports/:id/download', async (req, res) => {
  *                   type: string
  */
 
-app.post('/api/policia2', async (req, res) => {
+app.post("/api/policia2", async (req, res) => {
   try {
     const { searchTerm } = req.body;
     const newRecord = await Policia2.create({ searchTerm });
     res.status(201).json(newRecord);
   } catch (error) {
-    console.error('Error saving data:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error saving data:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 /**
@@ -2077,7 +2210,7 @@ app.post('/api/policia2', async (req, res) => {
  *                 error:
  *                   type: string
  */
-app.post('/api/policia2/search', async (req, res) => {
+app.post("/api/policia2/search", async (req, res) => {
   try {
     const { searchTerm } = req.body;
     const record = await Policia2.findOne({ where: { searchTerm } });
@@ -2087,8 +2220,8 @@ app.post('/api/policia2/search', async (req, res) => {
       res.status(200).json({ found: false });
     }
   } catch (error) {
-    console.error('Error searching data:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error searching data:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -2167,14 +2300,36 @@ app.post('/api/policia2/search', async (req, res) => {
  *                   type: string
  *                   description: Error message indicating server issues
  */
-app.post('/api/policia3', async (req, res) => {
+app.post("/api/policia3", async (req, res) => {
   try {
-    const { personalNumber, fullName, city, phone, email, selectedOption, station, reason, dek } = req.body;
-    const newRecord = await Policia3.create({ personalNumber, fullName, city, phone, email, selectedOption, station, reason, dek });
-    res.status(201).json({ message: 'Data saved successfully', record: newRecord });
+    const {
+      personalNumber,
+      fullName,
+      city,
+      phone,
+      email,
+      selectedOption,
+      station,
+      reason,
+      dek,
+    } = req.body;
+    const newRecord = await Policia3.create({
+      personalNumber,
+      fullName,
+      city,
+      phone,
+      email,
+      selectedOption,
+      station,
+      reason,
+      dek,
+    });
+    res
+      .status(201)
+      .json({ message: "Data saved successfully", record: newRecord });
   } catch (error) {
-    console.error('Error saving data:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error saving data:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -2226,17 +2381,17 @@ app.post('/api/policia3', async (req, res) => {
  *                   type: string
  *                   description: Detailed error message
  */
-app.post('/api/kesco-bills', async (req, res) => {
+app.post("/api/kesco-bills", async (req, res) => {
   try {
-      const { region, reference } = req.body;
-      const newBill = await KescoBill.create({
-          region,
-          reference,
-      });
-      res.json(newBill);
+    const { region, reference } = req.body;
+    const newBill = await KescoBill.create({
+      region,
+      reference,
+    });
+    res.json(newBill);
   } catch (error) {
-      console.error('Error saving data:', error);
-      res.status(500).json({ error: 'Error saving data' });
+    console.error("Error saving data:", error);
+    res.status(500).json({ error: "Error saving data" });
   }
 });
 
@@ -2287,12 +2442,14 @@ app.post('/api/kesco-bills', async (req, res) => {
  *                   type: string
  *                   description: Detailed error message
  */
-app.post('/api/kesco-bills/search', async (req, res) => {
+app.post("/api/kesco-bills/search", async (req, res) => {
   try {
     const { region, reference } = req.body;
-    console.log('Received search parameters:', { region, reference });
+    console.log("Received search parameters:", { region, reference });
     if (!region || !reference) {
-      return res.status(400).json({ error: 'Region and reference are required' });
+      return res
+        .status(400)
+        .json({ error: "Region and reference are required" });
     }
     const record = await KescoBill.findOne({ where: { region, reference } });
     if (record) {
@@ -2301,8 +2458,8 @@ app.post('/api/kesco-bills/search', async (req, res) => {
       res.json({ found: false });
     }
   } catch (error) {
-    console.error('Error searching data:', error);
-    res.status(500).json({ error: 'Error searching data' });
+    console.error("Error searching data:", error);
+    res.status(500).json({ error: "Error searching data" });
   }
 });
 /**
@@ -2351,14 +2508,14 @@ app.post('/api/kesco-bills/search', async (req, res) => {
  *             schema:
  *               type: string
  */
-app.post('/api/donacioni', async (req, res) => {
+app.post("/api/donacioni", async (req, res) => {
   try {
     const { amount, reference } = req.body;
     const donation = await Donacioni.create({ amount, reference });
     res.status(201).json(donation);
   } catch (error) {
-    console.error('Error saving donation:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Error saving donation:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 /**
@@ -2404,18 +2561,18 @@ app.post('/api/donacioni', async (req, res) => {
  *             schema:
  *               type: string
  */
-app.get('/api/verifikimi/:ref', async (req, res) => {
+app.get("/api/verifikimi/:ref", async (req, res) => {
   try {
     const { ref } = req.params;
     const verifikimi = await Verifikimi.findOne({ where: { ref } });
     if (verifikimi) {
       res.status(200).json(verifikimi);
     } else {
-      res.status(404).send('Banderola not found');
+      res.status(404).send("Banderola not found");
     }
   } catch (error) {
-    console.error('Error fetching banderola:', error);
-    res.status(500).send('Server error');
+    console.error("Error fetching banderola:", error);
+    res.status(500).send("Server error");
   }
 });
 
@@ -2462,37 +2619,46 @@ app.get('/api/verifikimi/:ref', async (req, res) => {
  *             schema:
  *               type: string
  */
-app.get('/api/dokElektronike/:ref', async (req, res) => {
+app.get("/api/dokElektronike/:ref", async (req, res) => {
   try {
     const { ref } = req.params;
     const dokElektronike = await DokElektronike.findOne({ where: { ref } });
     if (dokElektronike) {
       res.status(200).json(dokElektronike);
     } else {
-      res.status(404).send('Number not match');
+      res.status(404).send("Number not match");
     }
   } catch (error) {
-    console.error('Error fetching data:', error);
-    res.status(500).send('Server error');
+    console.error("Error fetching data:", error);
+    res.status(500).send("Server error");
   }
 });
 
-const{ FamilyDoctorSelection}=require('./db');
-app.post('/registerRequest', (req, res) => {
-  console.log('Request received', req.body);
-  const { selectedOption1: requestType, selectedOption2: healthInstitution, selectedOption3: familyDoctor, aprovoj: approved } = req.body;
+const { FamilyDoctorSelection } = require("./db");
+app.post("/registerRequest", (req, res) => {
+  console.log("Request received", req.body);
+  const {
+    selectedOption1: requestType,
+    selectedOption2: healthInstitution,
+    selectedOption3: familyDoctor,
+    aprovoj: approved,
+  } = req.body;
 
   FamilyDoctorSelection.create({
-      requestType,
-      healthInstitution,
-      familyDoctor,
-      approved
+    requestType,
+    healthInstitution,
+    familyDoctor,
+    approved,
   })
-  .then(selection => res.status(201).send(selection))
-  .catch(error => {
-      console.error('Error:', error);
-      res.status(500).json({ message: 'Failed to register the request due to server error.' });
-  });
+    .then((selection) => res.status(201).send(selection))
+    .catch((error) => {
+      console.error("Error:", error);
+      res
+        .status(500)
+        .json({
+          message: "Failed to register the request due to server error.",
+        });
+    });
 });
 
 /**
@@ -2545,14 +2711,18 @@ app.post('/registerRequest', (req, res) => {
  *             schema:
  *               type: string
  */
-app.post('/api/fatura-per', async (req, res) => {
+app.post("/api/fatura-per", async (req, res) => {
   try {
     const { firstName, lastName, nrPersonal } = req.body;
-    const newFaturaPer = await FaturaPer.create({ firstName, lastName, nrPersonal });
+    const newFaturaPer = await FaturaPer.create({
+      firstName,
+      lastName,
+      nrPersonal,
+    });
     res.status(201).json(newFaturaPer);
   } catch (error) {
-    console.error('Failed to create new FaturaPer entry:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Failed to create new FaturaPer entry:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
@@ -2602,18 +2772,18 @@ app.post('/api/fatura-per', async (req, res) => {
  *             schema:
  *               type: string
  */
-app.get('/api/fatura-per/:nrPersonal', async (req, res) => {
+app.get("/api/fatura-per/:nrPersonal", async (req, res) => {
   try {
     const { nrPersonal } = req.params;
     const faturaPer = await FaturaPer.findOne({ where: { nrPersonal } });
     if (faturaPer) {
       res.status(200).json(faturaPer);
     } else {
-      res.status(404).send('FaturaPer not found');
+      res.status(404).send("FaturaPer not found");
     }
   } catch (error) {
-    console.error('Error fetching FaturaPer:', error);
-    res.status(500).send('Server error');
+    console.error("Error fetching FaturaPer:", error);
+    res.status(500).send("Server error");
   }
 });
 
@@ -2638,20 +2808,35 @@ app.get('/api/fatura-per/:nrPersonal', async (req, res) => {
  *       500:
  *         description: Internal Server Error
  */
-app.post('/api/auto-regjistrim', async (req, res) => {
+app.post("/api/auto-regjistrim", async (req, res) => {
   try {
-    const { autoTipi, regjistrimiRi, ndryshimiPronarit, komuna, marka, motorCcm } = req.body;
+    const {
+      autoTipi,
+      regjistrimiRi,
+      ndryshimiPronarit,
+      komuna,
+      marka,
+      motorCcm,
+    } = req.body;
     const newAutoRegjistrim = await AutoRegjistrim.create({
-      autoTipi, regjistrimiRi, ndryshimiPronarit, komuna, marka, motorCcm
+      autoTipi,
+      regjistrimiRi,
+      ndryshimiPronarit,
+      komuna,
+      marka,
+      motorCcm,
     });
 
     // Generate PDF
     const doc = new PDFDocument();
     let filename = `AutoRegjistrim-${newAutoRegjistrim.id}.pdf`;
-    filename = encodeURIComponent(filename) + '.pdf';
+    filename = encodeURIComponent(filename) + ".pdf";
 
-    res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
-    res.setHeader('Content-type', 'application/pdf');
+    res.setHeader(
+      "Content-disposition",
+      'attachment; filename="' + filename + '"',
+    );
+    res.setHeader("Content-type", "application/pdf");
 
     doc.text(`Auto Tipi: ${newAutoRegjistrim.autoTipi}`);
     doc.text(`Regjistrimi Ri: ${newAutoRegjistrim.regjistrimiRi}`);
@@ -2663,30 +2848,47 @@ app.post('/api/auto-regjistrim', async (req, res) => {
     doc.pipe(res);
     doc.end();
   } catch (error) {
-    console.error('Error saving AutoRegjistrim data and generating PDF:', error);
-    res.status(500).send('Internal Server Error');
+    console.error(
+      "Error saving AutoRegjistrim data and generating PDF:",
+      error,
+    );
+    res.status(500).send("Internal Server Error");
   }
 });
 
 // Endpoint to save AutoB form data and generate PDF
-app.post('/api/autob', async (req, res) => {
+app.post("/api/autob", async (req, res) => {
   try {
     const {
-      autoType, ownerType, englishRegistration, mathsRegistration, personalNumber, registrationType,
-      municipality, marka, engineCapacity
+      autoType,
+      ownerType,
+      englishRegistration,
+      mathsRegistration,
+      personalNumber,
+      registrationType,
+      municipality,
+      marka,
+      engineCapacity,
     } = req.body;
 
     const newAutoB = await AutoB.create({
-      autoType, ownerType, englishRegistration, mathsRegistration, personalNumber, registrationType,
-      municipality, marka, engineCapacity
+      autoType,
+      ownerType,
+      englishRegistration,
+      mathsRegistration,
+      personalNumber,
+      registrationType,
+      municipality,
+      marka,
+      engineCapacity,
     });
 
     const doc = new PDFDocument();
-    const pdfPath = path.join(__dirname, 'AutoB_' + personalNumber + '.pdf');
+    const pdfPath = path.join(__dirname, "AutoB_" + personalNumber + ".pdf");
     const stream = fs.createWriteStream(pdfPath);
 
     doc.pipe(stream);
-    doc.text('AutoB Registration Details');
+    doc.text("AutoB Registration Details");
     doc.text(`Auto Type: ${autoType}`);
     doc.text(`Owner Type: ${ownerType}`);
     doc.text(`New Registration: ${englishRegistration}`);
@@ -2698,23 +2900,22 @@ app.post('/api/autob', async (req, res) => {
     doc.text(`Engine Capacity: ${engineCapacity}`);
     doc.end();
 
-    stream.on('finish', () => {
-      res.download(pdfPath, 'AutoB_' + personalNumber + '.pdf', (err) => {
+    stream.on("finish", () => {
+      res.download(pdfPath, "AutoB_" + personalNumber + ".pdf", (err) => {
         if (err) {
-          console.error('Error sending the file:', err);
-          res.status(500).send('Error downloading the file');
+          console.error("Error sending the file:", err);
+          res.status(500).send("Error downloading the file");
         }
         fs.unlinkSync(pdfPath); // Remove the file after sending
       });
     });
-
   } catch (error) {
-    console.error('Error saving data:', error);
-    res.status(500).send('Server Error');
+    console.error("Error saving data:", error);
+    res.status(500).send("Server Error");
   }
 });
 
-app.post('/api/auto-ps', async (req, res) => {
+app.post("/api/auto-ps", async (req, res) => {
   try {
     const autoPData = req.body;
     const newAutoP = await AutoP.create(autoPData);
@@ -2733,75 +2934,82 @@ app.post('/api/auto-ps', async (req, res) => {
     doc.text(`Approved: ${newAutoP.approved}`);
     doc.end();
 
-    res.status(201).json({ message: 'Data saved and PDF generated', fileName });
+    res.status(201).json({ message: "Data saved and PDF generated", fileName });
   } catch (error) {
-    console.error('Error saving data:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error saving data:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-app.get('/api/download-pdf/:file', (req, res) => {
+app.get("/api/download-pdf/:file", (req, res) => {
   const filePath = path.join(__dirname, req.params.file);
-  res.download(filePath, err => {
+  res.download(filePath, (err) => {
     if (err) {
-      console.error('Error downloading file:', err);
-      res.status(500).json({ error: 'Error downloading file' });
+      console.error("Error downloading file:", err);
+      res.status(500).json({ error: "Error downloading file" });
     }
   });
 });
 
 //Save data in ApLehonat
-app.post('/api/ap_lehonat', async (req, res) => {
+app.post("/api/ap_lehonat", async (req, res) => {
   try {
     const newApLehonat = await ApLehonat.create(req.body);
-    res.status(201).json({ message: 'Data saved successfully', data: newApLehonat });
+    res
+      .status(201)
+      .json({ message: "Data saved successfully", data: newApLehonat });
   } catch (error) {
-    console.error('Error saving data:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Error saving data:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
 //Save data for ApFemije
-app.post('/api/ap_femije', async (req, res) => {
+app.post("/api/ap_femije", async (req, res) => {
   try {
     const newApFemije = await ApFemije.create(req.body);
-    res.status(201).json({ message: 'Data saved successfully', data: newApFemije });
+    res
+      .status(201)
+      .json({ message: "Data saved successfully", data: newApFemije });
   } catch (error) {
-    console.error('Error saving data:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Error saving data:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
 // Endpoint to save CertiFam data
-app.post('/api/certi-fam', async (req, res) => {
+app.post("/api/certi-fam", async (req, res) => {
   try {
     const { document_type, description } = req.body;
     const newCertiFam = await CertiFam.create({ document_type, description });
-    res.status(201).json({ message: 'Data saved successfully', data: newCertiFam });
+    res
+      .status(201)
+      .json({ message: "Data saved successfully", data: newCertiFam });
   } catch (error) {
-    console.error('Error saving data:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Error saving data:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
-
 
 // Endpoint to save CertiFam data
-app.post('/api/certi-fam', async (req, res) => {
+app.post("/api/certi-fam", async (req, res) => {
   try {
     const { document_type, description } = req.body;
     const newCertiFam = await CertiFam.create({ document_type, description });
-    res.status(201).json({ message: 'Data saved successfully', data: newCertiFam });
+    res
+      .status(201)
+      .json({ message: "Data saved successfully", data: newCertiFam });
   } catch (error) {
-    console.error('Error saving data:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Error saving data:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
-app.get('/api/certi-fam/:id/download', async (req, res) => {
+app.get("/api/certi-fam/:id/download", async (req, res) => {
   try {
     const certiFam = await CertiFam.findByPk(req.params.id);
     if (!certiFam) {
-      return res.status(404).send('Data not found');
+      return res.status(404).send("Data not found");
     }
 
     const doc = new PDFDocument();
@@ -2811,38 +3019,45 @@ app.get('/api/certi-fam/:id/download', async (req, res) => {
     doc.text(`Description: ${certiFam.description}`);
     doc.end();
 
-    doc.on('finish', () => {
+    doc.on("finish", () => {
       res.download(filePath, (err) => {
         if (err) {
-          console.error('Error downloading file:', err);
-          res.status(500).send('Error downloading file');
+          console.error("Error downloading file:", err);
+          res.status(500).send("Error downloading file");
         }
         fs.unlinkSync(filePath);
       });
     });
   } catch (error) {
-    console.error('Error fetching data and generating PDF:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Error fetching data and generating PDF:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
-app.post('/api/adpostare', async (req, res) => {
+app.post("/api/adpostare", async (req, res) => {
   try {
     const { Komuna, Vendbanimi, Numri, Rruga, Kodi, selectedOption } = req.body;
 
     const newAdPostare = await AdPostare.create({
-      Komuna, Vendbanimi, Numri, Rruga, Kodi, selectedOption
+      Komuna,
+      Vendbanimi,
+      Numri,
+      Rruga,
+      Kodi,
+      selectedOption,
     });
 
-    res.status(201).json({ message: 'Data saved successfully', data: newAdPostare });
+    res
+      .status(201)
+      .json({ message: "Data saved successfully", data: newAdPostare });
   } catch (error) {
-    console.error('Error saving data:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error saving data:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Endpoint to save Deklarimi data
-app.post('/api/deklarimi', async (req, res) => {
+app.post("/api/deklarimi", async (req, res) => {
   try {
     const { antarsim, canetaresimin, selectedOption } = req.body;
 
@@ -2852,42 +3067,47 @@ app.post('/api/deklarimi', async (req, res) => {
       selectedOption,
     });
 
-    res.status(201).json({ message: 'Data saved successfully', data: newDeklarimi });
+    res
+      .status(201)
+      .json({ message: "Data saved successfully", data: newDeklarimi });
   } catch (error) {
-    console.error('Error saving data:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error saving data:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 /// Endpoint to save Vula data
-app.post('/api/vula', async (req, res) => {
+app.post("/api/vula", async (req, res) => {
   try {
     const { personalNumber, fullName, city, email } = req.body;
-    const newVula = await Vula.create({ personalNumber, fullName, city, email });
-    res.status(201).json({ message: 'Data saved successfully', data: newVula });
+    const newVula = await Vula.create({
+      personalNumber,
+      fullName,
+      city,
+      email,
+    });
+    res.status(201).json({ message: "Data saved successfully", data: newVula });
   } catch (error) {
-    console.error('Error saving data:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error saving data:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Endpoint to delete Vula data
-app.delete('/api/vula', async (req, res) => {
+app.delete("/api/vula", async (req, res) => {
   try {
     const { personalNumber } = req.body;
     const result = await Vula.destroy({ where: { personalNumber } });
     if (result) {
-      res.status(200).json({ message: 'Data deleted successfully' });
+      res.status(200).json({ message: "Data deleted successfully" });
     } else {
-      res.status(404).json({ error: 'Data not found' });
+      res.status(404).json({ error: "Data not found" });
     }
   } catch (error) {
-    console.error('Error deleting data:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error deleting data:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
-
-
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
