@@ -1,0 +1,195 @@
+body {
+    background-image: url("/public/ftuy4.jpg");
+    background-size: cover;
+    background-position: center;
+    font-family: 'Times New Roman', Times, serif;
+    margin-top: 5%;
+}
+
+.kryesore-form-container {
+    max-width: 1050px;
+    margin: 10% auto;
+    padding: 20px;
+    background-color: rgba(248, 249, 250, 0.78);
+    border-radius: 8px;
+    color: #333;
+}
+
+.kryesore-form-wrapper {
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 2%;
+    border-radius: 5px;
+    border: 2px solid rgb(181, 78, 40);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.kryesore-form-container h1 {
+    font-size: 28px;
+    text-align: left;
+    color: rgb(181, 78, 40);
+}
+
+.kryesore-form-container p {
+    font-size: 18px;
+    text-align: left;
+    margin: 2% 0;
+}
+
+.kryesore-section {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.kryesore-section h4 {
+    margin-left: 10%;
+    margin-top: -1%;
+}
+
+.kryesore-card-content {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: 10%;
+}
+
+.kryesore-link {
+    color: #333;
+}
+
+.kryesore-link a {
+    color: blue;
+    text-decoration: none;
+}
+
+.iccon {
+    font-size: 52px;
+    color: rgb(42, 35, 98);
+    margin-bottom: -9%;
+    margin-left: -95%;
+    margin-top: 2%;
+}
+
+.icconn {
+    font-size: 52px;
+    color: rgb(85, 20, 11);
+    margin-bottom: -9%;
+    margin-left: -95%;
+    margin-top: 2%;
+}
+
+.image-section {
+    margin-top: 30px;
+    margin-bottom: 5%;
+}
+
+.image-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.image-container img {
+    width: 230px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.h33 {
+    text-align: left;
+    margin-top: 5%;
+    margin-bottom: 3%;
+    font-size: 24px;
+    color: rgb(181, 78, 40);
+}
+
+.Bon-conta {
+    margin-top: 20px;
+    margin-bottom: 5%;
+}
+
+.Form-bu {
+    padding: 10px 20px;
+    background-color: rgba(23, 51, 108, 0.944);
+    color: #fff;
+    border: 1px solid rgba(23, 51, 108, 0.944);
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    width: 30%;
+}
+
+.Form-bu:hover {
+    background-color: rgb(63, 88, 139);
+}
+
+.ima-section {
+    margin-top: 30px;
+    margin-bottom: 5%;
+}
+
+.ima-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.ima-box {
+    background-color: rgba(127, 157, 215, 0.34);
+    padding: 15px;
+    flex: 1;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    text-align: justify;
+}
+
+.ima-box h4 {
+    color: rgb(42, 35, 98);
+    font-size: 20px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.ima-box p {
+    margin: 10px 0;
+}
+
+.Bo-conta {
+    position: relative;
+    z-index: 2;
+}
+
+.Fo-bu {
+    position: absolute;
+    margin-top: -15%;
+    right: 94%;
+    padding: 5px 10px;
+    background-color: rgba(23, 51, 108, 0.944);
+    color: #fff;
+    border: 1px solid rgba(23, 51, 108, 0.944);
+    border-radius: 10%;
+    width: 17%;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.468);
+}
+.buo{
+    background-color: rgb(181, 78, 40);
+    border: 1px solid rgb(181, 78, 40);
+}
+.bui{
+    background-color: rgb(109, 18, 18);
+    border: 1px solid rgb(109, 18, 18);
+}
+
+
+

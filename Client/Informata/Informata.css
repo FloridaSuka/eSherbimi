@@ -1,0 +1,96 @@
+.informata {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.informata-container {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  margin-top: 5%;
+}
+
+
+.servi-cards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.servi-cards-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; 
+  margin: 40px 80px;
+  margin-left: 5%;
+}
+
+.servi-card {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  width: calc(33% - 20px); 
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  background-color: #ffffffce;
+  color: rgb(23, 52, 108);
+  transition: all 0.3s ease-in-out; 
+}
+
+.service-link::after {
+  content: '';
+  position: absolute;
+  width: 88%;
+  height: 2px;
+  bottom: 18px;
+  left: 6%;
+  background-color: rgb(23, 52, 108);
+  visibility: hidden;
+  transform: scaleX(0);
+  transition: all 0.3s ease-in-out;
+}
+
+.service-link:hover::after {
+  visibility: visible;
+  transform: scaleX(1);
+}
+
+.servi-card:hover {
+  transform: translateY(-5px); 
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.515);
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  border-bottom: 1px solid #ccc;
+}
+
+.servi-card-content {
+  margin-top: 8px;
+}
+
+.servi-card-content a {
+  font-size: 18px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  justify-content: center;
+}
+
+.service-icon {
+  font-size: 50px;
+  color: rgb(23, 52, 108);
+}
+
+.informata-container .in{
+  justify-content: left;
+  text-align: left;
+  margin-left: -580%;
+}
