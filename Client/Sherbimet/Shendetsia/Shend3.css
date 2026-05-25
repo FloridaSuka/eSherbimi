@@ -1,0 +1,28 @@
+.electronic-passport-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: #333;
+    margin-top: 13%;
+}
+
+.electronic-passport-wrapper {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+.electronic-passport-button {
+    margin-left: 7%;
+    text-align: center;
+    justify-content: center;
+    font-size: 16px;
+    background-color: #333;
+    border-radius: 5px;
+    color: #fff;
+}
+.electronic-passport-button:hover{
+    background-color: #3333339f;
+}

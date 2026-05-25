@@ -1,0 +1,109 @@
+.kon-form-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: #333;
+    margin-top: 15%;
+}
+
+.kon-form-wrapper {
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.kon-form-container h2 {
+    font-size: 20px;
+    margin-bottom: 2%;
+}
+
+.kon-paragraph {
+    margin-left: 3%;
+    font-size: 16px;
+    padding: 15px;
+}
+
+.kon-options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.kon-form-wrapper label {
+    text-align: left;
+    white-space: nowrap;
+    margin-right: 65%;
+}
+
+.columee-left {
+    margin-right: 70%;
+    flex: 1;
+}
+
+.kon-options {
+    display: flex;
+    align-items: center;
+    margin-top: -5%;
+    margin-left: 65%;
+}
+
+.kon-options input[type="radio"] {
+    margin-right: 5px;
+    width: auto;
+    margin-left: 25%;
+    margin-top: -5%;
+}
+
+.kon-options label {
+    margin-right: 10px;
+    margin-top: -5%;
+}
+
+.kon-form-input {
+    padding: 5px;
+    margin-left: -35%; 
+}
+.kon-button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-right: 4%;
+}
+
+.kon-button:hover {
+    background-color: #555;
+}
+
+.kon-checkbox-app {
+    align-self: flex-start; 
+    margin-top: 20px;
+    margin-left: 5%;
+    margin-bottom: 2%;
+}
+.kon-checkbox-app input[type="checkbox"] {
+    margin-left: -0.7%;
+    margin-top: -5%;
+    width: 20px;
+    height: 15px;
+}
+.kon-checkbox-note {
+    margin-bottom: -40px; 
+    margin-left: 2%;
+    font-size: 16px;
+}
+.kon-image {
+    width: 100%;
+    border-radius: 5px;
+}

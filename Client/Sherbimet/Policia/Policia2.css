@@ -1,0 +1,64 @@
+.Pol-p-form-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: #333;
+    margin-top: 15%;
+}
+
+.Pol-p-form-wrapper {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+.Pol-p-form-container h2 {
+    font-size: 20px;
+    margin-bottom: 2%;
+}
+
+.Pol-p-form-container  {
+    width: calc(75% - 10%);
+    padding: 10px;
+}
+.Pol-p-form-container .Pol-p-form-input {
+    width: calc(75% - 10%);
+    padding: 10px;
+}
+.Pol-p-input{
+    width: 50%;
+    margin-left: -45%;
+    height: 10%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border-radius: 5px;
+    border: 1px solid #333333d9;
+
+}
+.Pol-p-input::placeholder{
+    font-size: 16px;
+}
+.Pol-p-form-container .ButtonP button {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    margin-left: -30%;
+}
+
+.Pol-p-form-container .ButtonP  button{
+    padding: 10px 20px;
+    background-color: #333333d9;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.Pol-p-form-container .ButtonP  button:hover {
+    background-color: #555555b5;
+}
+
+

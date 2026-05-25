@@ -1,0 +1,119 @@
+.Form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: #33333393;
+    margin-top: 10%;
+}
+
+.Form-wrapper {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+}
+.Form-container h1{
+    font-size: 24px;
+    margin-bottom: 2%;
+}
+.Left-column h4{
+    margin-left: 5%;
+    margin-top: 2%;
+    text-decoration: underline;
+}
+.Right-column h4{
+    margin-left: 5%;
+    margin-top: 2%;
+    text-decoration: underline;
+}
+
+label {
+    margin-left: 5%;
+    display: inline-block;
+    width: 30%;
+}
+
+.Left-column {
+    margin-right: 30px;
+    flex: 1;
+}
+
+.Right-column {
+    margin-right: 30px;
+    flex: 1;
+}
+
+.Form-textarea {
+    width: calc(105% - 10%);
+    margin-left: 5%;
+}
+.Form-input{
+    width: calc(75% - 10%);
+    padding: 10px;
+}
+
+.Button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.Form-button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.Form-button:hover {
+    background-color: #33333393;
+}
+
+.Gender-options {
+    display: flex;
+    align-items: center;
+}
+.True-options {
+    display: flex;
+    align-items: center;
+}
+.True{
+    white-space: nowrap;
+}
+#male,#female, #other, #No, #Yes{
+    margin-right: -18%;
+    margin-top: 3%;
+}
+#aprovoj{
+    margin-right: -35%;
+    margin-top: 3%;
+    text-align: center;
+    justify-content: center;
+}
+.Subject-options input[type="checkbox"] {
+    margin-left: 15%;
+    margin-top: 0;
+}
+.Subject-options {
+    display: flex;
+    align-items: center;
+}
+
+.Gender-options input[type="radio"],
+.True-options input[type="radio"]{
+    margin-right: 5px;
+    margin-top: 0;
+}
+
+.Form-input::placeholder {
+    font-size: 14px;
+    color: #999; 
+}
+.Note{
+    font-size: 16px;
+    margin-left: 5%;
+    margin-top: 2%;
+}

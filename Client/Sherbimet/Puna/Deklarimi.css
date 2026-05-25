@@ -1,0 +1,94 @@
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: rgb(23, 52, 108);
+    margin-top: 10%;
+}
+
+.form-wrapper {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+.form-container h1 {
+    font-size: 24px;
+    margin-bottom: 2%;
+}
+
+.column-left {
+    margin-right: 30px;
+    flex: 1;
+}
+
+.column-right {
+    margin-right: 30px;
+    flex: 1;
+}
+
+label {
+    margin-left: 5%;
+    display: inline-block;
+    width: 30%;
+}
+
+.form-textarea {
+    width: calc(105% - 10%);
+    margin-left: 5%;
+}
+
+.form-input {
+    width: calc(75% - 10%);
+    padding: 10px;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.form-button {
+    padding: 10px 20px;
+    background-color: rgb(23, 52, 108);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.form-button:hover {
+    background-color: rgb(45, 64, 102);
+}
+
+.auto-options {
+    display: flex;
+    margin-left: 40%;
+    margin-top: -7%;
+}
+
+.auto-options input[type="radio"] {
+    margin-left: 5%;
+    margin-top: 25px;
+    width: 20px;
+}
+
+.registration-options {
+    display: flex;
+    margin-top: 3%;
+}
+
+.registration-options input[type="checkbox"] {
+    margin-left: 5%;
+    margin-top: 25px;
+    width: 20px;
+}
+
+.form-input::placeholder {
+    font-size: 14px;
+    color: #999;
+}

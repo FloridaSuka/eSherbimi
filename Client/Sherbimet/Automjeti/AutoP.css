@@ -1,0 +1,159 @@
+.auto-p-form-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: #333;
+    margin-top: 10%;
+}
+
+.auto-p-form-wrapper {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+.auto-p-form-container h1 {
+    font-size: 24px;
+    margin-bottom: 2%;
+}
+.auto-p-column-left h3 {
+    margin-top: 5%;
+    text-align: left;
+    margin-left: 5%;
+
+}
+#auto-b-registrationType{
+    width: 5%;
+    height: 30%;
+    margin-top: 3%;
+}
+.auto-p-column-left {
+    margin-right: 30px;
+    flex: 1;
+}
+
+.auto-p-column-right {
+    margin-right: 30px;
+    flex: 1;
+}
+
+.auto-p-form-container label {
+    margin-left: 5%;
+    display: inline-block;
+    width: 30%;
+}
+
+.auto-p-form-container .auto-p-form-input {
+    width: calc(75% - 10%);
+    padding: 10px;
+}
+.auto-p-input{
+    width: 59%;
+}
+.auto-p-button-container button {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    margin-left: 40%;
+}
+
+.auto-p-button-container  button{
+    padding: 10px 20px;
+    background-color: #333333d9;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.auto-p-button-container  button:hover {
+    background-color: #555555b5;
+}
+
+.auto-p-auto-options {
+    display: flex;
+    margin-left: 40%;
+    margin-top: -7%;
+}
+
+.nje {
+    margin-left: 5%;
+    margin-top: 5%;
+}
+
+.auto-p-owner-options {
+    display: flex;
+    flex-direction: row;
+    margin-left: 40%;
+}
+
+.auto-p-owner-options label {
+    margin-top: -10%;
+    margin-left: 15px;
+}
+
+.auto-p-registration-options {
+    display: flex;
+    margin-top: 3%;
+    width: 100%;
+    height: auto;
+}
+
+.auto-p-registration-options input[type="checkbox"] {
+    margin-left: 5%;
+    margin-top: 25px;
+    width: 20px;
+}
+
+.auto-p-input::placeholder {
+    font-size: 18px;
+    color: red;
+    text-align: center;
+    justify-content: center;
+}
+
+.auto-p-prices-container {
+    margin-top: 10px;
+    margin: 10px;
+}
+
+.auto-p-prices-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.auto-p-prices-table th,
+.auto-p-prices-table td {
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.auto-p-prices-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+.auto-p-prices-table tbody {
+    background-color: #f2f2f2;
+}
+
+.auto-p-app {
+    margin-top: 20px;
+}
+
+.auto-p-note {
+    margin-bottom: -40px; 
+    margin-left: 5%;
+}
+
+.auto-p-app #apro {
+    margin-left: -27%;
+    margin-top: -6%;
+}
+
+.auto-p-input {
+    margin-right: 5px; 
+}

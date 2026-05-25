@@ -1,0 +1,33 @@
+.Po-p-form-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: #333;
+    margin-top: 15%;
+}
+
+.Po-p-form-wrapper {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+.Po-p-form-container h2 {
+    font-size: 20px;
+    margin-bottom: 2%;
+}
+
+.Po-p-form-container  {
+    width: calc(75% - 10%);
+    padding: 10px;
+}
+
+.nj{
+    margin-left: 5%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+

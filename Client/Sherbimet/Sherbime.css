@@ -1,0 +1,119 @@
+.service-cards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+.service-cards-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; 
+  margin: 40px 80px;
+  margin-left: 5%;
+}
+
+.service-card {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  width: calc(23% - 20px); 
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  background-color: #ffffffce;
+  color: #333;
+  transition: all 0.3s ease-in-out; 
+}
+.linkclass::after {
+  content: '';
+  position: absolute;
+  width: 88%;
+  height: 2px;
+  bottom: 18px;
+  left: 6%;
+  background-color: #333;
+  visibility: hidden;
+  transform: scaleX(0);
+  transition: all 0.3s ease-in-out;
+}
+.linkclass:hover::after {
+  visibility: visible;
+  transform: scaleX(1);
+}
+.service-card:hover {
+  transform: translateY(-5px); 
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.515);
+}
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  border-bottom: 1px solid #ccc;
+}
+
+.service-card-content {
+  margin-top: 8px;
+}
+
+.service-card-content a {
+  font-size: 18px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  justify-content: center;
+}
+.service-icon{
+ font-size: 50px;
+}
+
+.sporteli {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  margin-top: 10%;
+}
+.sporteli h4{
+  margin-left: 6%;
+  font-size: 20px;
+  margin-bottom: -25px;
+  font-weight: light;
+}
+
+.radio-buttons {
+  display: flex;
+  margin-bottom: -15px; 
+  margin-left: 23%; 
+  white-space: nowrap;
+}
+
+.radio-buttons label {
+  margin-right: 10px;
+  margin-top: -0.5%; 
+}
+.radio-buttons input[type="radio"] {
+  margin-right: -2%;
+  cursor: pointer;
+}
+.search-bar input[type="text"] {
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.search-bar{
+  margin-right: 6%;
+}
+
+.search-bar button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+

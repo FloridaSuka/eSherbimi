@@ -1,0 +1,104 @@
+.adresa-service-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 40px 80px;
+    margin-left: 5%;
+    margin-top: 15%;
+  }
+  
+  .adresa-section-title {
+    margin-left: 6%;
+    font-size: 24px;
+    margin-bottom: -25px;
+    font-weight: light;
+  }
+  
+  .adresa-options {
+    display: flex;
+    margin-bottom: -15px; 
+    margin-left: 14%; 
+    white-space: nowrap;
+  }
+  
+  .adresa-options label {
+    margin-right: 10px;
+    margin-top: -0.5%; 
+  }
+  .adresa-options input[type="radio"] {
+    margin-right: -2%;
+    cursor: pointer;
+  }
+  .adresa-search-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .adresa-search-container input[type="text"] {
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 10%;
+  }
+  
+  .adresa-search-container button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .adresa-service-cards-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .adresa-service-cards-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+  
+  .adresa-service-card {
+    width: calc(100% - 40px);
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #ffffffce;
+    color: #333;
+    transition: all 0.3s ease-in-out; ;
+  }
+  
+  .adresa-service-card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.16);
+  }
+  .adresa-card-content {
+    display: flex;
+    align-items: center;
+    margin-left: 3%;
+  }
+  .adresa-card-content h2{
+    font-size: 20px;
+    white-space: nowrap;
+  }
+  
+  .adresa-card-icon {
+    font-size: 40px;
+    margin-right: 10px;
+    transition: all 0.3s ease-in-out; 
+  }
+  .adresa-card-icon:hover {
+    transform: translateY(-5px); 
+  }
+  .adresa-arrow {
+    font-size: 40px;
+    margin-left: auto;
+  }
+  

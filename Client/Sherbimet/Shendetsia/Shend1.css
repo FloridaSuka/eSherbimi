@@ -1,0 +1,75 @@
+.App-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: #33333393;
+    margin-top: 2%; 
+}
+
+.App-form-wrapper {
+    display: flex;
+    font-size: 20px;
+}
+.App-form-container h1{
+    font-size: 24px;
+    margin-bottom: 2%;
+}
+.left-column h4{
+    margin-left: 5%;
+    margin-top: 2%;
+    text-decoration: underline;
+}
+.App-form-input{
+    width: calc(75% - 10%);
+    padding: 10px;
+    margin-left: 5%;
+    margin-top: 2%;
+}
+label {
+    margin-left: 5%;
+    display: inline-block;
+    width: 30%;
+}
+
+.left-column {
+    margin-right: 30px;
+    flex: 1;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.para{
+    font-size: 16px;
+    margin-left: 5%;
+    margin-top: 2%;
+}
+#aprovoj{
+    margin-right: -35%;
+    margin-top: 3%;
+    text-align: center;
+    justify-content: center;
+}
+.Vem{
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border: 2px solid rgb(195, 12, 12);
+    border-radius: 8px;
+    color: #33333393;
+    margin-top: 2%;
+}
+.vem {
+    margin-top: 10px;
+}
+h3{
+    margin-top: 10%;
+    justify-content: center;
+    text-align: center;
+    font-size: 22px;
+}

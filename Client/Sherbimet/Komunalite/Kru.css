@@ -1,0 +1,104 @@
+.kru-form-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: #333;
+    margin-top: 15%;
+}
+
+.kru-form-wrapper {
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.kru-form-container h2 {
+    font-size: 20px;
+    margin-bottom: 2%;
+}
+
+.form-elements {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.kru-form-wrapper label {
+    text-align: left;
+    white-space: nowrap;
+    margin-right: 65%;
+}
+
+.form-elements .input {
+    width: 20%;
+    padding: 10px;
+    margin-right: -30%;
+}
+
+#region {
+    margin-left: 5%;
+    border-radius: 5px;
+}
+
+.kru-input {
+    width: 80%;
+    padding: 10px;
+    margin-left: 5%;
+    border-radius: 5px;
+    border: 1px solid #333333b5;
+}
+
+.kru-input::placeholder {
+    font-size: 16px;
+}
+
+.form-button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-right: 4%;
+}
+
+.form-button:hover {
+    background-color: #555;
+}
+
+.attention-section {
+    align-self: flex-start;
+    margin-top: 20px;
+    margin-left: 5%;
+    margin-bottom: 2%;
+    line-height: 30px;
+}
+
+.attention-item {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+.attention-icon {
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+.attention-text {
+    color: #333;
+}
+
+.modal-img {
+    width: 100%;
+    border-radius: 5px;
+}

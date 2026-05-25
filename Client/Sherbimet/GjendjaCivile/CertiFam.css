@@ -1,0 +1,69 @@
+.Custom-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: #33333393;
+    margin-top: 10%;
+}
+
+.Custom-form-wrapper {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+.Custom-form-container h1 {
+    font-size: 24px;
+    margin-bottom: 2%;
+}
+
+.Custom-left-column h4 {
+    margin-left: 5%;
+    margin-top: 2%;
+    text-decoration: underline;
+}
+
+.Custom-label {
+    margin-left: 5%;
+    display: inline-block;
+    width: 30%;
+}
+
+.Custom-left-column {
+    margin-right: 30px;
+    flex: 1;
+}
+
+.Custom-form-input {
+    width: calc(75% - 10%);
+    padding: 10px;
+    margin-left: 5%;
+    margin-top: 2%;
+}
+
+.Custom-button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.Custom-form-button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.Custom-form-button:hover {
+    background-color: #3333339f;
+}
+
+.Custom-para {
+    font-size: 16px;
+    margin-left: 5%;
+    margin-top: 2%;
+}
