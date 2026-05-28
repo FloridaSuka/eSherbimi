@@ -1,0 +1,28 @@
+{
+  "name": "ssh-gr32-platform",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Distributed client-server electronic services platform for Sistemet e Shperndara 2025/26.",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "install:all": "npm install --workspaces",
+    "dev:backend": "npm --workspace backend run dev",
+    "dev:frontend": "npm --workspace frontend run dev",
+    "start:backend": "npm --workspace backend start",
+    "build": "npm --workspace frontend run build",
+    "test": "npm --workspace backend test && npm --workspace frontend test",
+    "migrate": "npm --workspace backend run migrate"
+  },
+  "keywords": [
+    "distributed-systems",
+    "rest-api",
+    "react",
+    "sequelize",
+    "openai"
+  ],
+  "author": "SSH Gr32",
+  "license": "MIT"
+}
