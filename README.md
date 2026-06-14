@@ -471,7 +471,9 @@ npm --workspace frontend run build
 | 18 | Background jobs | BackgroundQueue |
 | 19 | Multi-tenancy | Tenant-scoped data separation |
 | 20 | Search/filtering | `q`, `status`, `limit`, `offset` |
+## Demo eSherbimi
 
+<a href="assets/Demo%20eSherbimi.mp4">▶️ Watch Demo</a>
 ## License
 
 MIT
